@@ -20,7 +20,7 @@ parser.add_argument('--checkpoint_dir', default='', type=str,
 
 
 if __name__ == "__main__":
-    ng.get_gpus(nums_gpus=1, dedicated=False)
+    ng.get_gpus(num_gpus=1, dedicated=False)
     args = parser.parse_args()
 
     model = InpaintCAModel()
