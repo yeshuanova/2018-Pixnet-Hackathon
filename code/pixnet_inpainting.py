@@ -93,7 +93,7 @@ def inpainting(quiz, debug=True):
     # 3. Call generative_inpainting model from CLI, this model will complete image and save to png file.    
     os.makedirs('output', exist_ok=True)
     output_path = f'output/{quiz.question_id}_gen_image.png'
-    model_path = 'generative_inpainting/models_logs/20180806124027737769_6c140319b0ee_pixfood20_NORMAL_wgan_gp_pixfood20/'
+    model_path = 'generative_inpainting/model_logs/20180806124027737769_6c140319b0ee_pixfood20_NORMAL_wgan_gp_pixfood20/'
     
     cli = ['python', './generative_inpainting/test.py',
            '--image', img_path,
@@ -107,7 +107,7 @@ def inpainting(quiz, debug=True):
     if res == 0:
         print('run DeepFillv1 successfully.')
         gen_image = ski_io.imread(output_path)
-    else:v
+    else:
         gen_image = quiz.raw_image
         print('Run DeepFillv1 error!')
         
