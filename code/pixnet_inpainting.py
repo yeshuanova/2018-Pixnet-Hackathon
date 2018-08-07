@@ -81,19 +81,19 @@ def inpainting(quiz, debug=True):
     mask = np.expand_dims(mask, axis=-1)
 
     # 2. save to png file
-    img_path = f'temp/{quiz.question_id}_raw_image.png'
-    mask_path = f'temp/{quiz.question_id}_mask.png'
+    img_path = f'output/{quiz.question_id}_raw_image.png'
+    mask_path = f'output/{quiz.question_id}_mask.png'
     
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', category=UserWarning)
-        os.makedirs('temp', exist_ok=True)
+        os.makedirs('output', exist_ok=True)
         ski_io.imsave(img_path, raw_image, quality=100)
         ski_io.imsave(mask_path, mask[:, :, 0], quality=100)    
 
     # 3. Call generative_inpainting model from CLI, this model will complete image and save to png file.    
     os.makedirs('output', exist_ok=True)
     output_path = f'output/{quiz.question_id}_gen_image.png'
-    model_path = 'generative_inpainting/models_logs/20180803070407864086_6c140319b0ee_pixfood20_NORMAL_wgan_gp_pixfood20/'
+    model_path = 'generative_inpainting/models_logs/20180806124027737769_6c140319b0ee_pixfood20_NORMAL_wgan_gp_pixfood20/'
     
     cli = ['python', './generative_inpainting/test.py',
            '--image', img_path,
@@ -107,7 +107,7 @@ def inpainting(quiz, debug=True):
     if res == 0:
         print('run DeepFillv1 successfully.')
         gen_image = ski_io.imread(output_path)
-    else:
+    else:v
         gen_image = quiz.raw_image
         print('Run DeepFillv1 error!')
         
