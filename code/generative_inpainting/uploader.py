@@ -13,7 +13,7 @@ import pdb
 from pdb import set_trace
 
 from inpaint_model import InpaintCAModel
-from code_pixnet_inpainting import get_image, submit_image
+from pixnet_inpainting import get_image, submit_image
 
 
 parser = argparse.ArgumentParser()
@@ -22,7 +22,7 @@ parser.add_argument('--output', default='output.png', type=str,
 parser.add_argument('--checkpoint_dir', default='', type=str,
                     help='The directory of tensorflow checkpoint.')
 
-def get_image(qid):
+def fetch_image(qid):
     quiz = get_image(qid)
 
     raw_image = quiz.raw_image.copy()
@@ -59,7 +59,7 @@ def make_image(image, mask):
     return concated
 
 if __name__ == "__main__":
-    ng.get_gpus(1)
+    ng.get_gpus(1, dedicated=False)
     args = parser.parse_args()
 
     model = InpaintCAModel()
@@ -91,23 +91,22 @@ if __name__ == "__main__":
 
     print('Model loaded.')
 
-
     cont = True
     while cont:
         try:
             question_id = input('question_id: ')
-            image, mask = get_image(question_id)
+            image, mask = fetch_image(question_id)
 
             image = image[:, :, ::-1]
             mask = img_as_ubyte(mask)
 
             concated = make_image(image, mask)
 
-            cv2.imwrite('/tmp/concated.jpg', concated[0])
+            cv2.imwrite('/concated.jpg', concated[0])
 
             result = sess.run(output, feed_dict={input_image: concated})[0]
             ski_io.imsave(args.output, result, format_str='jpeg')
-            cv2.imwrite('/tmp/out.jpg', result[:, :, ::-1] )
+            cv2.imwrite('/out.jpg', result[:, :, ::-1] )
             submit_image(result, question_id)
         except KeyboardInterrupt:
             sess.close()
