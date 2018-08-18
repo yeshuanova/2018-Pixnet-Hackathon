@@ -111,5 +111,5 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             sess.close()
             cont = False
-        except KeyError:
+        except Exception:
             pass
