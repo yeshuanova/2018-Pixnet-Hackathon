@@ -27,9 +27,9 @@ pip install git+https://github.com/JiahuiYu/neuralgym
 
 > 需使用的相關 package 以放在 `requirements.txt` 中，可透過 `pip -r requirements.txt` 指令安裝相依套件。
 
-## 下載 Model
+## Model_logs
 
-從 GCP 上下載 model checkpoint 的 Folder 並放在 ./generating_inpainting/model_logs 下，目前使用
+將 model checkpoint 的資料夾並放在 ./generating_inpainting/model_logs 下，目前使用
 
 ```
 20180806124027737769_6c140319b0ee_pixfood20_NORMAL_wgan_gp_pixfood20
@@ -47,6 +47,18 @@ bash -c "source .secrets.env; python pixnet_inpainting.py --qid 1"
 此外原始圖片，Mask 圖片以及 inpainting 後的圖片都會放在 `output` 資料夾中。
 
 > 新圖片會覆蓋舊圖片
+
+## 整合 Code
+
+新版執行方式，啟動 python 程式後讀入 Model 並建立交互式輸入方式選擇答題題號，確認後上傳結果至競賽網頁。
+
+```bash
+# Set variable
+source .secrets.env
+
+# Run inpainting
+python ./generative_inpainting/uploader.py --checkpoint {CheckPointPath}
+``` 
 
 ## Link
 
